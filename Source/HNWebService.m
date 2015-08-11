@@ -627,7 +627,7 @@
             if ([html rangeOfString:[NSString stringWithFormat:@"for=%@", uniqueId]].location == NSNotFound) {
                 // It worked!
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [HNManager sharedManager] addHNObjectToVotedOnDictionary:hnObject direction:direction];
+                    [[HNManager sharedManager] addHNObjectToVotedOnDictionary:hnObject direction:direction];
                     completion(YES);
                 });
             }
