@@ -58,8 +58,8 @@
                 }
                 else {
                     hnUser = [[HNUser alloc] init];
-                    hnUser.username = username;
-                    hnUser.karma = 0;
+                    hnUser.Username = username;
+                    hnUser.Karma = 0;
                 }
                 
                 if (username) {
