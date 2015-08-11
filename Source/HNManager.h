@@ -74,6 +74,13 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 - (void)logout;
 
 /**
+ Loads a user from HN.
+ @param username   - Username of the user to load
+ @return    NSArray of HNPost objects
+ */
+- (void)loadUserWithUsername:(NSString *)username completion:(GetUserCompletion)completion;
+
+/**
  Loads posts from HN. The filter parameter filters your returned posts to Top, New, Ask, Jobs, or Best.
  @param filter   - PostFilterType for what you want
  @return    NSArray of HNPost objects

@@ -144,6 +144,10 @@ static HNManager * _sharedManager = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:nil];
 }
 
+- (void)loadUserWithUsername:(NSString *)username completion:(GetUserCompletion)completion {
+    [self.service loadUserWithUsername:username completion:completion];
+}
+
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion {
     // Reset PostUrlAddition
     self.postUrlAddition = nil;

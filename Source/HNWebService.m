@@ -40,6 +40,55 @@
     return self;
 }
 
+- (void)loadUserWithUsername:(NSString *)username completion:(GetUserCompletion)completion {
+    // Build URL String
+    NSString *urlPath = [NSString stringWithFormat:@"%@user?id=%@", kBaseURLAddress, username];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if (html) {
+                HNUser *hnUser;
+                
+                if ([html rangeOfString:@"We've limited requests for this url."].location == NSNotFound) {
+                    hnUser = [HNUser userFromHTML:html];
+                }
+                else {
+                    hnUser = [[HNUser alloc] init];
+                    hnUser.username = username;
+                    hnUser.karma = 0;
+                }
+                
+                if (username) {
+                    // Finally return the user we've been looking for
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(hnUser);
+                    });
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(nil);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil);
+            });
+        }
+    }];
+    
+    [self.HNQueue addOperation:operation];
+}
 
 #pragma mark - Load Posts With Filter
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion {
