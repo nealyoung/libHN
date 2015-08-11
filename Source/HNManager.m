@@ -145,7 +145,7 @@ static HNManager * _sharedManager = nil;
 }
 
 - (void)loadUserWithUsername:(NSString *)username completion:(GetUserCompletion)completion {
-    [self.service loadUserWithUsername:username completion:completion];
+    [self.Service loadUserWithUsername:username completion:completion];
 }
 
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion {
